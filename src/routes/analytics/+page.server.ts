@@ -19,26 +19,8 @@ const postgresQuery = (db: pkg.PoolClient, text: string, params: string[]) =>
 export const prerender = false;
 export const ssr = true;
 
-const rpcClient = env["RPC_kaiyo-1"]
-  ? new HttpClient(env["RPC_kaiyo-1"])
-  : undefined;
-
 export const load: PageServerLoad = async ({ locals }) => {
-  const db = locals.db;
-
-  if (rpcClient == null) {
-    return {
-      unstakeAnalyticsData: [],
-      incompleteUnstakeAnalytics: [],
-    };
-  }
-
-  const tmClient = await Tendermint37Client.create(rpcClient);
-  const client = await createKujiraClient(
-    tmClient,
-    MAINNET,
-    env["RPC_kaiyo-1"]!
-  );
+  const { db, rpc } = locals;
 
   const allVaults = [
     ...new Set(
@@ -51,7 +33,7 @@ export const load: PageServerLoad = async ({ locals }) => {
   try {
     const vaultDebtRatios = Promise.all(
       allVaults.map(async (vault) => {
-        const status = await client.wasm.queryContractSmart(vault, {
+        const status = await rpc.wasm.queryContractSmart(vault, {
           status: {},
         });
         return [vault, status["debt_share_ratio"] as string];
