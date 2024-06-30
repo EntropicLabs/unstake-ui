@@ -11,7 +11,7 @@ export const TimeRange = {
 
 export type TimeRange = ValuesUnion<typeof TimeRange>;
 
-export type DateLineChartData = {
+export type DataPoint = {
   x: Date;
   y: number;
 };

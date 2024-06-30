@@ -1,4 +1,4 @@
-import { TimeRange, type DateLineChartData } from "./types";
+import { TimeRange, type DataPoint } from "./types";
 
 /**
  * Returns data within the time range and sums data values that belong to the same nearby date
@@ -8,11 +8,11 @@ export function aggregateDataByDates({
   timeRange,
   shouldKeepFuture,
 }: {
-  chartData: DateLineChartData[];
+  chartData: DataPoint[];
   timeRange: TimeRange;
   shouldKeepFuture: boolean;
 }) {
-  const initialDates: { [key: string]: DateLineChartData } = {};
+  const initialDates: { [key: string]: DataPoint } = {};
   const minDate = getNearestDate(
     new Date(Date.now() - msInRange(timeRange)),
     timeRange
@@ -41,7 +41,7 @@ export function aggregateDataByDates({
           value.x.getTime() >= minDate.getTime() &&
           (shouldKeepFuture || value.x.getTime() <= Date.now())
       )
-      .reduce((acc: { [key: string]: DateLineChartData }, current) => {
+      .reduce((acc: { [key: string]: DataPoint }, current) => {
         const nearestDate = getNearestDate(current.x, timeRange);
         const timeKey = nearestDate.toISOString();
         acc[timeKey].y += current.y;
