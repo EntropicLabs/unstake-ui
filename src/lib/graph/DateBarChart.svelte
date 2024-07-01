@@ -20,10 +20,7 @@
     datasets: [
       {
         label: datasetLabel,
-        backgroundColor:
-          graphColor === ""
-            ? chartData.map((value) => (value.y > 0 ? "#15803d" : "#B91C1C"))
-            : graphColor,
+        backgroundColor: "gray",
         borderColor: "gray",
         data: chartData,
       },
@@ -147,7 +144,15 @@
       chart.data.datasets[0].data = chartData;
       chart.data.datasets[0].backgroundColor =
         graphColor === ""
-          ? chartData.map((value) => (value.y > 0 ? "#15803d" : "#B91C1C"))
+          ? chartData.map((value) =>
+              value.x.getTime() > Date.now()
+                ? value.y > 0
+                  ? "#72b28a"
+                  : "#ce6060"
+                : value.y > 0
+                  ? "#15803d"
+                  : "#B91C1C"
+            )
           : graphColor;
       chart.options.plugins.verticalLines = {
         lines: [

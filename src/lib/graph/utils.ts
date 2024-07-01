@@ -21,7 +21,11 @@ export function aggregateDataByDates({
   let currentDate = minDate;
   const maxDateTime = Math.max(...chartData.map((data) => data.x.getTime()));
   const endDateTime = shouldKeepFuture
-    ? Math.max(Date.now(), maxDateTime + 24 * 60 * 60 * 1000)
+    ? Math.max(
+        Date.now(),
+        Math.min(maxDateTime, Date.now() + msInRange(timeRange)) +
+          24 * 60 * 60 * 1000
+      )
     : Date.now();
 
   while (currentDate.getTime() <= endDateTime) {
@@ -114,7 +118,24 @@ export function getTooltipFormat(timeRange: TimeRange) {
   }
 }
 
-export function getRangeText(timeRange: TimeRange, timeDifference: number) {
+export function getRangeText(timeRange: TimeRange) {
+  switch (timeRange) {
+    case TimeRange["1D"]:
+      return "Day";
+    case TimeRange["5D"]:
+      return "5 Days";
+    case TimeRange["2W"]:
+      return "2 Weeks"
+    case TimeRange["6M"]:
+      return "6 Months"
+    case TimeRange["1Y"]:
+      return "Year"
+    case TimeRange.MAX:
+      return "Entire";
+  }
+}
+
+export function getNextRangeText(timeRange: TimeRange, timeDifference: number) {
   switch (timeRange) {
     case TimeRange["1D"]:
     case TimeRange["5D"]:

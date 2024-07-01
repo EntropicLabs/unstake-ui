@@ -64,6 +64,7 @@
         yLabel={`Value ${DENOMS[selectedDataset[0].controller.offer_denom].name}`}
         unit={DENOMS[selectedDataset[0].controller.offer_denom].name}
         iconDenom={selectedDataset[0].controller.offer_denom}
+        shouldKeepFutureToggle
       />
     </div>
   </div>
