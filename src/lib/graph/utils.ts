@@ -21,11 +21,10 @@ export function aggregateDataByDates({
   let currentDate = minDate;
   const maxDateTime = Math.max(...chartData.map((data) => data.x.getTime()));
   const endDateTime = shouldKeepFuture
-    ? Math.max(
-        Date.now(),
-        Math.min(maxDateTime, Date.now() + msInRange(timeRange)) +
-          24 * 60 * 60 * 1000
-      )
+    ? (timeRange === TimeRange["MAX"]
+        ? Math.max(maxDateTime, Date.now())
+        : Date.now() + msInRange(timeRange)) +
+      24 * 60 * 60 * 1000
     : Date.now();
 
   while (currentDate.getTime() <= endDateTime) {
@@ -46,7 +45,7 @@ export function aggregateDataByDates({
       .filter(
         (value) =>
           value.x.getTime() >= minDate.getTime() &&
-          (shouldKeepFuture || value.x.getTime() <= Date.now())
+          value.x.getTime() <= endDateTime
       )
       .reduce((acc: { [key: string]: DataPoint }, current) => {
         const nearestDate = getNearestDate(current.x, timeRange);
@@ -118,24 +117,24 @@ export function getTooltipFormat(timeRange: TimeRange) {
   }
 }
 
-export function getRangeText(timeRange: TimeRange) {
+export function getNextRangeText(timeRange: TimeRange) {
   switch (timeRange) {
     case TimeRange["1D"]:
-      return "Day";
+      return "Next Day";
     case TimeRange["5D"]:
-      return "5 Days";
+      return "Next 5 Days";
     case TimeRange["2W"]:
-      return "2 Weeks"
+      return "Next 2 Weeks";
     case TimeRange["6M"]:
-      return "6 Months"
+      return "Next 6 Months";
     case TimeRange["1Y"]:
-      return "Year"
+      return "Next Year";
     case TimeRange.MAX:
-      return "Entire";
+      return "Entire Future";
   }
 }
 
-export function getNextRangeText(timeRange: TimeRange, timeDifference: number) {
+export function getRangeText(timeRange: TimeRange, timeDifference: number) {
   switch (timeRange) {
     case TimeRange["1D"]:
     case TimeRange["5D"]:
