@@ -14,7 +14,7 @@
   const allData = [...unstakeAnalyticsData, ...incompleteUnstakeAnalytics];
   const dataByAsset = groupBy(allData, (d) => d.controller.offer_denom);
 
-  let selectedAsset = dataByAsset.keys().next().value;
+  let selectedAsset = "ukuji";
   let selectedDataset = dataByAsset.get(selectedAsset)!;
   $: selectedDataset = dataByAsset.get(selectedAsset)!;
 </script>
