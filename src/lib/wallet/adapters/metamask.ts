@@ -6,6 +6,7 @@ import { CosmjsOfflineSigner, connectSnap, getSnap, suggestChain } from "@leapwa
 import IconMetaMask from "../icons/IconMetaMask.svelte";
 import { convertAccountData, offlineSignerSign } from "./common";
 import { ConnectionError, WalletAdapter, type AccountData, type ISigner, type WalletMetadata } from "./types";
+import { browser } from "$app/environment";
 
 export class MetaMask implements ISigner {
     private constructor(private acc: AccountData, private signer: OfflineSigner) { }
@@ -39,7 +40,7 @@ export class MetaMask implements ISigner {
     }
     public getMetadata(): WalletMetadata { return MetaMask.metadata; }
 
-    public static async isInstalled(): Promise<boolean> { return !!(await getSnap()); }
+    public static async isInstalled(): Promise<boolean> { return browser && !!(await getSnap()); }
 
     public account(): AccountData { return this.acc; }
 

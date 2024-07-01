@@ -6,6 +6,7 @@ import type { Keplr, Window as KeplrWindow } from "@keplr-wallet/types";
 import IconLeap from "../icons/IconLeap.svelte";
 import { convertAccountData, offlineSignerSign } from "./common";
 import { ConnectionError, WalletAdapter, type AccountData, type ISigner, type WalletMetadata } from "./types";
+import { browser } from "$app/environment";
 
 declare global {
     interface Window extends KeplrWindow {
@@ -47,7 +48,7 @@ export class Leap implements ISigner {
     }
     public getMetadata(): WalletMetadata { return Leap.metadata; }
 
-    public static async isInstalled(): Promise<boolean> { return !!window.leap; }
+    public static async isInstalled(): Promise<boolean> { return browser &&!!window.leap; }
 
     public account(): AccountData { return this.acc; }
 

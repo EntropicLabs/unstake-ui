@@ -51,7 +51,7 @@
     <button
       id="asset"
       type="button"
-      class="border rounded-t-md w-full flex justify-center shadow-lg border-neutral-600 hover:border-neutral-500"
+      class="border bg-neutral-800 rounded-t-md w-full flex justify-center shadow-lg border-neutral-600 hover:border-neutral-500"
       class:rounded-b-md={!open}
       aria-haspopup="true"
       aria-expanded="true"

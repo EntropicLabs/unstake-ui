@@ -6,6 +6,7 @@ import type { Window as KeplrWindow } from "@keplr-wallet/types";
 import IconKeplr from "../icons/IconKeplr.svelte";
 import { convertAccountData, offlineSignerSign } from "./common";
 import { ConnectionError, WalletAdapter, type AccountData, type ISigner, type WalletMetadata } from "./types";
+import { browser } from "$app/environment";
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -46,7 +47,7 @@ export class Keplr implements ISigner {
     }
     public getMetadata(): WalletMetadata { return Keplr.metadata; }
 
-    public static async isInstalled(): Promise<boolean> { return !!window.keplr; }
+    public static async isInstalled(): Promise<boolean> { return browser && !!window.keplr; }
 
     public account(): AccountData { return this.acc; }
 

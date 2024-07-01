@@ -18,6 +18,7 @@
     async () => {
       let c = await get(client);
       if (!c) return {};
+
       let statuses = await Promise.all(
         allReserves.map(async (reserve) => {
           let status = await c.wasm.queryContractSmart(reserve.address, {

@@ -164,4 +164,5 @@ export interface ReserveStatusResponse {
     deployed: Balance;
     available: Balance;
     reserve_redemption_rate: BigNumber;
+    apr: BigNumber | null;
 };

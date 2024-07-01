@@ -7,6 +7,7 @@ import type { ChainInfoResponse } from "@terra-money/station-connector/keplrConn
 import IconStation from "../icons/IconStation.svelte";
 import { convertAccountData, offlineSignerSign } from "./common";
 import { ConnectionError, WalletAdapter, type AccountData, type ISigner, type WalletMetadata } from "./types";
+import { browser } from "$app/environment";
 
 declare global {
     interface Window {
@@ -48,7 +49,7 @@ export class Station implements ISigner {
     };
     public getMetadata(): WalletMetadata { return Station.metadata; }
 
-    public static async isInstalled(): Promise<boolean> { return !!window.station; }
+    public static async isInstalled(): Promise<boolean> { return browser && !!window.station; }
 
     public account(): AccountData { return this.acc; }
 

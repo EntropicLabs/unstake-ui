@@ -7,6 +7,34 @@ import { ibcTypes } from "@cosmjs/stargate/build/modules";
 import type BigNumber from "bignumber.js";
 import type { GasInfo } from "cosmjs-types/cosmos/base/abci/v1beta1/abci";
 
+
+export function getRelativeTime(date: Date, compact: boolean = false): string {
+    const relativeSeconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    return toRoughHumanReadable(relativeSeconds, compact);
+}
+
+export function toRoughHumanReadable(seconds: number, compact: boolean = false) {
+    const format = (value: number, unit: string) => {
+        if (compact) {
+            return `${value}${unit[0]}`;
+        } else {
+            return `${value} ${unit}${value > 1 ? "s" : ""}`;
+        }
+    }
+    const days = Math.floor(seconds / 86400);
+    if (days > 0) return format(days, "day");
+
+    const hours = Math.floor(seconds / 3600) % 24;
+    if (hours > 0) return format(hours, "hour");
+
+    const minutes = Math.floor(seconds / 60) % 60;
+    if (minutes > 0) return format(minutes, "minute");
+
+    if (seconds > 0) return format(Math.floor(seconds), "second");
+
+    return "0 seconds";
+}
+
 const types = [
     ...defaultRegistryTypes,
     ...wasmTypes,

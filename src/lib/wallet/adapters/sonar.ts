@@ -12,6 +12,7 @@ import { savedAdapter } from "../stores";
 import { protoRegistry } from "../utils";
 import { validateAccount } from "./common";
 import { WalletAdapter, type AccountData, type ISigner, type WalletMetadata } from "./types";
+import { browser } from "$app/environment";
 
 type Session = SessionTypes.Struct;
 
@@ -99,7 +100,7 @@ export class Sonar implements ISigner {
     }
     public getMetadata(): WalletMetadata { return Sonar.metadata; }
 
-    public static async isInstalled(): Promise<boolean> { return true; }
+    public static async isInstalled(): Promise<boolean> { return browser; }
 
     public account(): AccountData { return this.acc; }
 

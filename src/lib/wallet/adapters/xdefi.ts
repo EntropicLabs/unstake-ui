@@ -6,6 +6,7 @@ import type { Keplr, Window as KeplrWindow } from "@keplr-wallet/types";
 import IconXDefi from "../icons/IconXDefi.svelte";
 import { convertAccountData, offlineSignerSign } from "./common";
 import { ConnectionError, WalletAdapter, type AccountData, type ISigner, type WalletMetadata } from "./types";
+import { browser } from "$app/environment";
 
 declare global {
     interface Window extends KeplrWindow {
@@ -49,7 +50,7 @@ export class XDefi implements ISigner {
     };
     public getMetadata(): WalletMetadata { return XDefi.metadata; }
 
-    public static async isInstalled(): Promise<boolean> { return !!window.xfi; }
+    public static async isInstalled(): Promise<boolean> { return browser &&!!window.xfi; }
 
     public account(): AccountData { return this.acc; }
 

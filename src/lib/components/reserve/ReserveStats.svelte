@@ -9,9 +9,26 @@
     if (s.total.amount.isZero()) return 67.5; //TODO: set to 0
     return s.deployed.amount.div(s.total.amount).times(100).toNumber();
   });
+
+  $: apr = status.then((s) => {
+    return s.apr;
+  });
 </script>
 
 <div class={clazz}>
+  {#await apr then apr}
+    {#if apr}
+      <div class="flex items-end justify-between gap-1 w-full text-xs">
+        <p class="text-stone-500">APR:</p>
+        <p>Loading...</p>
+        <p
+          class="bg-gradient-to-tr from-red-600 via-red-500 to-amber-500 text-transparent bg-clip-text font-bold xs:text-sm"
+        >
+          {apr.toFixed(2)}%
+        </p>
+      </div>
+    {/if}
+  {/await}
   <div class="flex items-end justify-between gap-1 w-full text-xs">
     <p class="text-stone-500">Utilization:</p>
     {#await utilization}
