@@ -1,9 +1,7 @@
 <script lang="ts" generics="T">
   import "chartjs-adapter-moment";
   import { type DataPoint, TimeRange } from "./types";
-  import { aggregateDataByDates, getNearestDate, getRangeText } from "./utils";
-  import { ArrowDown, ArrowUp } from "lucide-svelte";
-  import DateLineChart from "./DateLineChart.svelte";
+  import { aggregateDataByDates, getNearestDate } from "./utils";
   import { icon } from "$lib/resources/registry";
   import DateBarChart from "./DateBarChart.svelte";
 
@@ -18,11 +16,6 @@
     updateGraph();
   }
 
-  // export let labels: {
-  //   dataset?: string;
-  //   x?: string;
-  //   y?: string;
-  // };
   export let datasetLabel: string;
   export let yLabel: string;
   export let unit: string;
@@ -30,17 +23,17 @@
   export let iconDenom: string | undefined = undefined;
   export let footerComment = "";
   export let verticalLineIdx = 0;
+  export let graphColor = "";
 
   let timeRange: TimeRange = TimeRange["5D"];
   let aggregatedDates: DataPoint[] = [];
-  let graphColor = "gray";
   let totalValue = 0;
 
   function updateGraph() {
     aggregatedDates = aggregateDataByDates({
       chartData,
       timeRange,
-      shouldKeepFuture: true,
+      shouldKeepFuture: false,
     });
     const currentNearestDate = getNearestDate(new Date(), timeRange);
     verticalLineIdx = aggregatedDates
@@ -62,10 +55,7 @@
 </script>
 
 <div class={`${clazz} bg-stone-800 rounded-lg py-2 px-2.5`}>
-  <!-- {#if labels.dataset} -->
   <p class="text-md text-stone-400">{datasetLabel}</p>
-  <!-- {/if} -->
-
   <div class="flex gap-1 items-center">
     <p class="text-lg bold font-semibold">
       {totalValue.toFixed(digitsToRound)}
@@ -92,9 +82,9 @@
     {datasetLabel}
     {yLabel}
     {unit}
-    {graphColor}
     {timeRange}
     {verticalLineIdx}
+    {graphColor}
   />
   {#if footerComment !== ""}
     <span class="mt-2 text-sm italic text-stone-400 text-center">

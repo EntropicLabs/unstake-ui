@@ -9,9 +9,9 @@
   export let datasetLabel: string;
   export let yLabel: string;
   export let unit: string;
-  export let graphColor: string;
   export let timeRange: TimeRange;
   export let verticalLineIdx: number;
+  export let graphColor: string;
 
   let chart: Chart<any, DataPoint[], unknown> | null;
   let barChart: HTMLCanvasElement | null;
@@ -20,8 +20,11 @@
     datasets: [
       {
         label: datasetLabel,
-        backgroundColor: graphColor,
-        borderColor: graphColor,
+        backgroundColor:
+          graphColor === ""
+            ? chartData.map((value) => (value.y > 0 ? "#15803d" : "#B91C1C"))
+            : graphColor,
+        borderColor: "gray",
         data: chartData,
       },
     ],
@@ -79,6 +82,9 @@
         maxTicksLimit: 0,
       },
       plugins: {
+        legend: {
+          display: false,
+        },
         tooltip: {
           callbacks: {
             label: function (context: any) {
@@ -139,8 +145,10 @@
   $: if (chartData) {
     if (chart != null) {
       chart.data.datasets[0].data = chartData;
-      chart.data.datasets[0].borderColor = graphColor;
-      chart.data.datasets[0].backgroundColor = graphColor;
+      chart.data.datasets[0].backgroundColor =
+        graphColor === ""
+          ? chartData.map((value) => (value.y > 0 ? "#15803d" : "#B91C1C"))
+          : graphColor;
       chart.options.plugins.verticalLines = {
         lines: [
           {

@@ -31,7 +31,10 @@ export function aggregateDataByDates({
       y: 0,
       x: nearestDate,
     };
-    currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
+
+    const timeIncrement =
+      timeRange === TimeRange["1D"] ? 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+    currentDate = new Date(currentDate.getTime() + timeIncrement);
   }
 
   return Object.values(
@@ -63,7 +66,7 @@ export function msInRange(timeRange: TimeRange) {
     case TimeRange["1Y"]:
       return 31557600000;
     case TimeRange.MAX:
-      return 94672800000;
+      return Date.now() - new Date("09/01/2023").getTime();
   }
 }
 
@@ -71,6 +74,11 @@ export function getNearestDate(date: Date, timeRange: TimeRange) {
   const nearestDate = new Date(date.getTime());
   switch (timeRange) {
     case TimeRange["1D"]:
+      // Round to nearest hour
+      nearestDate.setMinutes(0);
+      nearestDate.setSeconds(0);
+      nearestDate.setMilliseconds(0);
+      return nearestDate;
     case TimeRange["5D"]:
     case TimeRange["2W"]:
       // Round to the nearest day
@@ -95,6 +103,7 @@ export function getNearestDate(date: Date, timeRange: TimeRange) {
 export function getTooltipFormat(timeRange: TimeRange) {
   switch (timeRange) {
     case TimeRange["1D"]:
+      return "h A on MMMM Do YYYY";
     case TimeRange["5D"]:
     case TimeRange["2W"]:
       return "MMMM Do YYYY";
