@@ -11,12 +11,6 @@
   import ReserveWidget from "$lib/components/reserve/ReserveWidget.svelte";
   import WalletInfo from "$lib/components/WalletInfo.svelte";
   import ReserveMigration from "$lib/components/ReserveMigration.svelte";
-  import type { PageData } from "./$types";
-
-  export let data: PageData = {
-    unstakeAnalyticsData: [],
-    incompleteUnstakeAnalytics: [],
-  };
 
   $: allReserves = Object.values(RESERVES[$savedNetwork.chainId]);
 
