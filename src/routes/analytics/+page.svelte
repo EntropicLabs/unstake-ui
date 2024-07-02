@@ -122,25 +122,40 @@
                 />
               </td>
               <td>
-                <div class="flex items-center gap-1 py-1">
-                  {getRelativeTime(unstake.endTime, true)} ago
-                </div>
+                <a
+                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                  target="_blank"
+                >
+                  <div class="flex items-center gap-1 py-1">
+                    {getRelativeTime(unstake.endTime, true)} ago
+                  </div>
+                </a>
               </td>
               <td class="">
-                {unbondAmount.normalized() < BigNumber(1)
-                  ? unbondAmount.humanAmount(4)
-                  : unbondAmount.humanAmount(2)}
-                <span class="text-stone-500">
-                  {unbondAmount.name}
-                </span>
+                <a
+                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                  target="_blank"
+                >
+                  {unbondAmount.normalized() < BigNumber(1)
+                    ? unbondAmount.humanAmount(4)
+                    : unbondAmount.humanAmount(2)}
+                  <span class="text-stone-500">
+                    {unbondAmount.name}
+                  </span>
+                </a>
               </td>
               <td class="text-right">
-                {pnl.normalized() < BigNumber(1)
-                  ? pnl.humanAmount(4)
-                  : pnl.humanAmount(2)}
-                <span class="text-stone-500">
-                  {pnl.name}
-                </span>
+                <a
+                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                  target="_blank"
+                >
+                  {pnl.normalized() < BigNumber(1)
+                    ? pnl.humanAmount(4)
+                    : pnl.humanAmount(2)}
+                  <span class="text-stone-500">
+                    {pnl.name}
+                  </span>
+                </a>
               </td>
             </tr>
           {/each}
@@ -188,25 +203,40 @@
                 />
               </td>
               <td>
-                <div class="flex items-center gap-1 py-1">
-                  {getRelativeTime(unstake.startTime, true)} ago
-                </div>
+                <a
+                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                  target="_blank"
+                >
+                  <div class="flex items-center gap-1 py-1">
+                    {getRelativeTime(unstake.startTime, true)} ago
+                  </div>
+                </a>
               </td>
               <td class="">
-                {unbondAmount.normalized() < BigNumber(1)
-                  ? pnl.humanAmount(4)
-                  : pnl.humanAmount(2)}
-                <span class="text-stone-500">
-                  {unbondAmount.name}
-                </span>
+                <a
+                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                  target="_blank"
+                >
+                  {unbondAmount.normalized() < BigNumber(1)
+                    ? pnl.humanAmount(4)
+                    : pnl.humanAmount(2)}
+                  <span class="text-stone-500">
+                    {unbondAmount.name}
+                  </span>
+                </a>
               </td>
               <td class="text-right">
-                {pnl.normalized() < BigNumber(1)
-                  ? pnl.humanAmount(4)
-                  : pnl.humanAmount(2)}
-                <span class="text-stone-500">
-                  {pnl.name}
-                </span>
+                <a
+                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                  target="_blank"
+                >
+                  {pnl.normalized() < BigNumber(1)
+                    ? pnl.humanAmount(4)
+                    : pnl.humanAmount(2)}
+                  <span class="text-stone-500">
+                    {pnl.name}
+                  </span>
+                </a>
               </td>
             </tr>
           {/each}

@@ -1,7 +1,7 @@
 import type { DataPoint } from "$lib/graph/types";
 import type { CONTROLLERS, RESERVES } from "@entropic-labs/unstake.js";
 
-type ControllerConfig = NonNullable<typeof CONTROLLERS[string][string]>;
+type ControllerConfig = NonNullable<(typeof CONTROLLERS)[string][string]>;
 export type IncompleteUnstakeAnalytics = {
   debtAmount: string;
   providerRedemption: string;
@@ -10,6 +10,7 @@ export type IncompleteUnstakeAnalytics = {
   vaultDebt: string;
   unbondAmount: string;
   controller: ControllerConfig;
+  delegate: string;
 };
 
 export type UnstakeAnalytics = {
@@ -18,6 +19,7 @@ export type UnstakeAnalytics = {
   endTime: Date;
   unbondAmount: string;
   controller: ControllerConfig;
+  delegate: string;
 };
 
 export type ControllerAnalytics = {
@@ -30,4 +32,4 @@ export type ControllerAnalytics = {
 
 export type VaultDebts = {
   [vault: string]: string;
-}
+};

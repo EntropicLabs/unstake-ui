@@ -67,7 +67,7 @@ export const load: PageServerLoad = async ({ locals }) => {
         getCachedAnalytics(
           db,
           `
-        SELECT "endTime", "controller", "startTime", "protocolFee", "unbondAmount"
+        SELECT "endTime", "controller", "delegate", "startTime", "protocolFee", "unbondAmount"
         FROM unstake
         WHERE (NOT "startBlockHeight"=0) AND (NOT "endBlockHeight"=0)
         ORDER BY "endTime" DESC
@@ -78,7 +78,7 @@ export const load: PageServerLoad = async ({ locals }) => {
         getCachedAnalytics(
           db,
           `
-        SELECT "reserveAmount", "vaultDebt", "debtAmount", "providerRedemption", "unbondAmount",  "startTime", "controller"
+        SELECT "reserveAmount", "vaultDebt", "delegate", "debtAmount", "providerRedemption", "unbondAmount",  "startTime", "controller"
         FROM unstake
         WHERE (NOT "startBlockHeight"=0) AND ("endBlockHeight"=0)
         ORDER BY "startTime" DESC
@@ -99,13 +99,14 @@ export const load: PageServerLoad = async ({ locals }) => {
         }
 
         return {
+          controller,
           debtAmount: row.debtAmount,
+          delegate: row.delegate,
           providerRedemption: row.providerRedemption,
           reserveAmount: row.reserveAmount,
           startTime: row.startTime,
           unbondAmount: row.unbondAmount,
           vaultDebt: row.vaultDebt,
-          controller,
         };
       }
     );
@@ -119,6 +120,7 @@ export const load: PageServerLoad = async ({ locals }) => {
           endTime,
           unbondAmount: data.unbondAmount,
           controller: data.controller,
+          delegate: data.delegate
         };
       });
 
@@ -132,11 +134,12 @@ export const load: PageServerLoad = async ({ locals }) => {
         }
 
         return {
-          pnl: row.protocolFee,
-          unbondAmount: row.unbondAmount,
-          startTime: row.startTime,
-          endTime: row.endTime,
           controller: controller,
+          delegate: row.delegate,
+          endTime: row.endTime,
+          pnl: row.protocolFee,
+          startTime: row.startTime,
+          unbondAmount: row.unbondAmount,
         };
       }
     );
