@@ -120,7 +120,7 @@ export const load: PageServerLoad = async ({ locals }) => {
           endTime,
           unbondAmount: data.unbondAmount,
           controller: data.controller,
-          delegate: data.delegate
+          delegate: data.delegate,
         };
       });
 

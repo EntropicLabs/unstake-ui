@@ -10,12 +10,15 @@ import type {
 import { RESERVES } from "@entropic-labs/unstake.js";
 import { MAINNET } from "$lib/resources/networks";
 import type { KujiraClient } from "$lib/network/types";
-import { HttpClient, Tendermint37Client, type AbciQueryParams } from "@cosmjs/tendermint-rpc";
+import {
+  HttpClient,
+  Tendermint37Client,
+  type AbciQueryParams,
+} from "@cosmjs/tendermint-rpc";
 import { createKujiraClient } from "$lib/network/connect";
 
 export const prerender = false;
 export const ssr = true;
-
 
 async function blockHeightAtTime(date: Date): Promise<number> {
   //https://api.kujira.app/api/block?before=2023-11-08T00:00:00Z
@@ -24,27 +27,28 @@ async function blockHeightAtTime(date: Date): Promise<number> {
   return (await res.json()).height;
 }
 
-async function getHistoricalQuerier(block: number, rpc: KujiraClient): Promise<KujiraClient> {
+async function getHistoricalQuerier(
+  block: number,
+  rpc: KujiraClient
+): Promise<KujiraClient> {
   const rpcClient = new HttpClient(rpc.getRpc());
   const tmClient = await Tendermint37Client.create(rpcClient);
 
-  const originalFn = tmClient['abciQuery'];
-  tmClient['abciQuery'] = function (args: AbciQueryParams) {
+  const originalFn = tmClient["abciQuery"];
+  tmClient["abciQuery"] = function (args: AbciQueryParams) {
     let modified = {
       height: block,
       path: args.path,
       data: args.data,
       prove: args.prove,
     };
-    return originalFn.apply(this, [
-      modified,
-    ]);
+    return originalFn.apply(this, [modified]);
   };
 
   return createKujiraClient(tmClient, MAINNET, rpc.getRpc());
 }
 
-export const load: PageServerLoad = async ({ }) => {
+export const load: PageServerLoad = async ({}) => {
   return {};
   // const { rpc } = locals;
   // const oneMonthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);

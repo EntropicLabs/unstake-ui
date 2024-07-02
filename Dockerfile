@@ -27,7 +27,7 @@ RUN yarn build
 
 # Remove development dependencies
 RUN rm -rf node_modules && \
-    npm install --ci
+    yarn install --ci
 
 # Final stage for app image
 FROM base
