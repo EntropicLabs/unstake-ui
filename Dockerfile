@@ -8,9 +8,6 @@ LABEL fly_launch_runtime="SvelteKit"
 # SvelteKit app lives here
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
-
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
@@ -39,6 +36,9 @@ FROM base
 COPY --from=build /app/build /app/build
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/package.json /app
+
+# Set production environment
+ENV NODE_ENV="production"
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
