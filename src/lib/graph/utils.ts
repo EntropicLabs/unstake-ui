@@ -120,15 +120,15 @@ export function getTooltipFormat(timeRange: TimeRange) {
 export function getNextRangeText(timeRange: TimeRange) {
   switch (timeRange) {
     case TimeRange["1D"]:
-      return "Next Day";
+      return "Future Day";
     case TimeRange["5D"]:
-      return "Next 5 Days";
+      return "Future 5 Days";
     case TimeRange["2W"]:
-      return "Next 2 Weeks";
+      return "Future 2 Weeks";
     case TimeRange["6M"]:
-      return "Next 6 Months";
+      return "Future 6 Months";
     case TimeRange["1Y"]:
-      return "Next Year";
+      return "Future Year";
     case TimeRange.MAX:
       return "Entire Future";
   }

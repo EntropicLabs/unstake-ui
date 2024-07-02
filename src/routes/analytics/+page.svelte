@@ -8,15 +8,26 @@
   import { BigNumber } from "bignumber.js";
   import DateBarChartWrapper from "$lib/graph/DateBarChartWrapper.svelte";
   import DenomSelect from "$lib/components/DenomSelect.svelte";
+  import { type UnstakeAnalytics } from "$lib/analytics/types";
 
   export let data: PageData;
   const { unstakeAnalyticsData, incompleteUnstakeAnalytics } = data;
   const allData = [...unstakeAnalyticsData, ...incompleteUnstakeAnalytics];
   const dataByAsset = groupBy(allData, (d) => d.controller.offer_denom);
+  let completeAnalyticsDataByAsset: UnstakeAnalytics[] = [];
+  let incompleteAnalyticsDataByAsset: UnstakeAnalytics[] = [];
 
   let selectedAsset = "ukuji";
   let selectedDataset = dataByAsset.get(selectedAsset)!;
-  $: selectedDataset = dataByAsset.get(selectedAsset)!;
+  $: if (selectedAsset) {
+    selectedDataset = dataByAsset.get(selectedAsset)!;
+    completeAnalyticsDataByAsset = unstakeAnalyticsData.filter(
+      (d) => d.controller.offer_denom === selectedAsset
+    );
+    incompleteAnalyticsDataByAsset = incompleteUnstakeAnalytics.filter(
+      (d) => d.controller.offer_denom === selectedAsset
+    );
+  }
 </script>
 
 <div class="max-w-screen-lg mx-auto mb-10">
@@ -76,8 +87,12 @@
       <div class="sticky top-0 bg-stone-800 py-2">
         <p class="text-md text-stone-400">Completed Unstakings</p>
         <p class="text-lg bold font-semibold">
-          {unstakeAnalyticsData.length}
-          <span class="font-normal">{unstakeAnalyticsData.length === 1 ? "Unstaking" : "Unstakings"}</span>
+          {completeAnalyticsDataByAsset.length}
+          <span class="font-normal"
+            >{completeAnalyticsDataByAsset.length === 1
+              ? "Unstaking"
+              : "Unstakings"}</span
+          >
         </p>
       </div>
       <table class="w-full">
@@ -90,7 +105,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each unstakeAnalyticsData as unstake}
+          {#each completeAnalyticsDataByAsset as unstake}
             {@const unbondAmount = Balance.fromAmountDenom(
               unstake.unbondAmount,
               unstake.controller.ask_denom
@@ -135,13 +150,17 @@
     <div
       class="basis-1/2 rounded-lg bg-stone-800 max-h-72 overflow-y-scroll px-2"
     >
-    <div class="sticky top-0 bg-stone-800 py-2">
-      <p class="text-md text-stone-400">Started Unstakings</p>
-      <p class="text-lg bold font-semibold">
-        {incompleteUnstakeAnalytics.length}
-        <span class="font-normal">{incompleteUnstakeAnalytics.length === 1 ? "Unstaking" : "Unstakings"}</span>
-      </p>
-    </div>
+      <div class="sticky top-0 bg-stone-800 py-2">
+        <p class="text-md text-stone-400">Started Unstakings</p>
+        <p class="text-lg bold font-semibold">
+          {incompleteAnalyticsDataByAsset.length}
+          <span class="font-normal"
+            >{incompleteAnalyticsDataByAsset.length === 1
+              ? "Unstaking"
+              : "Unstakings"}</span
+          >
+        </p>
+      </div>
       <table class="w-full">
         <thead>
           <tr class="text-xs text-stone-500">
@@ -152,7 +171,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each incompleteUnstakeAnalytics as unstake}
+          {#each incompleteAnalyticsDataByAsset as unstake}
             {@const unbondAmount = Balance.fromAmountDenom(
               unstake.unbondAmount,
               unstake.controller.ask_denom
@@ -174,13 +193,17 @@
                 </div>
               </td>
               <td class="">
-                {unbondAmount.humanAmount(2)}
+                {unbondAmount.normalized() < BigNumber(1)
+                  ? pnl.humanAmount(4)
+                  : pnl.humanAmount(2)}
                 <span class="text-stone-500">
                   {unbondAmount.name}
                 </span>
               </td>
               <td class="text-right">
-                {pnl.humanAmount(2)}
+                {pnl.normalized() < BigNumber(1)
+                  ? pnl.humanAmount(4)
+                  : pnl.humanAmount(2)}
                 <span class="text-stone-500">
                   {pnl.name}
                 </span>
