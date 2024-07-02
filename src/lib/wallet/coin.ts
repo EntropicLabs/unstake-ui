@@ -29,7 +29,7 @@ export class Balance {
   public humanAmount(decimals: number = 2): string {
     return formatBigNumber(this.normalized(), decimals);
   }
-
+  
   public display(decimals?: number): string {
     return `${this.humanAmount(decimals)} ${this.name}`;
   }

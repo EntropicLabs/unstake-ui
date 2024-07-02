@@ -28,6 +28,16 @@
       (d) => d.controller.offer_denom === selectedAsset
     );
   }
+
+  function formatBalance(balance: Balance) {
+    const normalizedBalance = balance.normalized();
+
+    if (normalizedBalance < BigNumber(0.01)) {
+      return normalizedBalance.toPrecision(1);
+    }
+
+    return balance.humanAmount(2);
+  }
 </script>
 
 <div class="max-w-screen-lg mx-auto mb-10">
@@ -97,7 +107,7 @@
       </div>
       <table class="w-full">
         <thead>
-          <tr class="text-xs text-stone-500 font-normal">
+          <tr class="text-xs text-stone-500">
             <th class="text-left pt-2 pb-4"></th>
             <th class="text-left pt-2 pb-4">Completed Time</th>
             <th class="text-left pt-2 pb-4">Unbond Amount</th>
@@ -136,9 +146,7 @@
                   href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
                   target="_blank"
                 >
-                  {unbondAmount.normalized() < BigNumber(1)
-                    ? unbondAmount.humanAmount(4)
-                    : unbondAmount.humanAmount(2)}
+                  {formatBalance(unbondAmount)}
                   <span class="text-stone-500">
                     {unbondAmount.name}
                   </span>
@@ -149,9 +157,7 @@
                   href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
                   target="_blank"
                 >
-                  {pnl.normalized() < BigNumber(1)
-                    ? pnl.humanAmount(4)
-                    : pnl.humanAmount(2)}
+                  {formatBalance(pnl)}
                   <span class="text-stone-500">
                     {pnl.name}
                   </span>
@@ -217,9 +223,7 @@
                   href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
                   target="_blank"
                 >
-                  {unbondAmount.normalized() < BigNumber(1)
-                    ? pnl.humanAmount(4)
-                    : pnl.humanAmount(2)}
+                  {formatBalance(unbondAmount)}
                   <span class="text-stone-500">
                     {unbondAmount.name}
                   </span>
@@ -230,9 +234,7 @@
                   href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
                   target="_blank"
                 >
-                  {pnl.normalized() < BigNumber(1)
-                    ? pnl.humanAmount(4)
-                    : pnl.humanAmount(2)}
+                  {formatBalance(pnl)}
                   <span class="text-stone-500">
                     {pnl.name}
                   </span>
