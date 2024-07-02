@@ -91,10 +91,8 @@
   </div>
 
   <div class="flex flex-row gap-4 mt-4">
-    <div
-      class="basis-1/2 rounded-lg bg-stone-800 max-h-72 overflow-y-scroll px-2"
-    >
-      <div class="sticky top-0 bg-stone-800 py-2">
+    <div class="flex flex-col basis-1/2 rounded-lg bg-stone-800 max-h-72 px-2">
+      <div class=" bg-stone-800 py-2">
         <p class="text-md text-stone-400">Completed Unstakings</p>
         <p class="text-lg bold font-semibold">
           {completeAnalyticsDataByAsset.length}
@@ -105,72 +103,72 @@
           >
         </p>
       </div>
-      <table class="w-full">
-        <thead>
-          <tr class="text-xs text-stone-500">
-            <th class="text-left pt-2 pb-4"></th>
-            <th class="text-left pt-2 pb-4">Completed Time</th>
-            <th class="text-left pt-2 pb-4">Unbond Amount</th>
-            <th class="text-right pt-2 pb-4">NSTK PnL</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each completeAnalyticsDataByAsset as unstake}
-            {@const unbondAmount = Balance.fromAmountDenom(
-              unstake.unbondAmount,
-              unstake.controller.ask_denom
-            )}
-            {@const pnl = Balance.fromAmountDenom(
-              unstake.pnl,
-              unstake.controller.offer_denom
-            )}
-            <tr class="text-sm">
-              <td>
-                <svelte:component
-                  this={icon(unstake.controller.ask_denom)}
-                  class="size-5"
-                />
-              </td>
-              <td>
-                <a
-                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
-                  target="_blank"
-                >
-                  <div class="flex items-center gap-1 py-1">
-                    {getRelativeTime(unstake.endTime, true)} ago
-                  </div>
-                </a>
-              </td>
-              <td class="">
-                <a
-                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
-                  target="_blank"
-                >
-                  {formatBalance(unbondAmount)}
-                  <span class="text-stone-500">
-                    {unbondAmount.name}
-                  </span>
-                </a>
-              </td>
-              <td class="text-right">
-                <a
-                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
-                  target="_blank"
-                >
-                  {formatBalance(pnl)}
-                  <span class="text-stone-500">
-                    {pnl.name}
-                  </span>
-                </a>
-              </td>
+      <div class="overflow-y-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="text-xs text-stone-500 bg-stone-800 sticky top-0">
+              <th class="text-left pt-2 pb-4"></th>
+              <th class="text-left pt-2 pb-4">Completed Time</th>
+              <th class="text-left pt-2 pb-4">Unbond Amount</th>
+              <th class="text-right pt-2 pb-4">NSTK PnL</th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {#each completeAnalyticsDataByAsset as unstake}
+              {@const unbondAmount = Balance.fromAmountDenom(
+                unstake.unbondAmount,
+                unstake.controller.ask_denom
+              )}
+              {@const pnl = Balance.fromAmountDenom(
+                unstake.pnl,
+                unstake.controller.offer_denom
+              )}
+              <tr class="text-sm">
+                <td>
+                  <svelte:component
+                    this={icon(unstake.controller.ask_denom)}
+                    class="size-5"
+                  />
+                </td>
+                <td>
+                  <a
+                    href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                    target="_blank"
+                  >
+                    <div class="flex items-center gap-1 py-1">
+                      {getRelativeTime(unstake.endTime, true)} ago
+                    </div>
+                  </a>
+                </td>
+                <td class="">
+                  <a
+                    href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                    target="_blank"
+                  >
+                    {formatBalance(unbondAmount)}
+                    <span class="text-stone-500">
+                      {unbondAmount.name}
+                    </span>
+                  </a>
+                </td>
+                <td class="text-right">
+                  <a
+                    href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                    target="_blank"
+                  >
+                    {formatBalance(pnl)}
+                    <span class="text-stone-500">
+                      {pnl.name}
+                    </span>
+                  </a>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div
-      class="basis-1/2 rounded-lg bg-stone-800 max-h-72 overflow-y-scroll px-2"
-    >
+    <div class="flex flex-col basis-1/2 rounded-lg bg-stone-800 max-h-72 px-2">
       <div class="sticky top-0 bg-stone-800 py-2">
         <p class="text-md text-stone-400">Started Unstakings</p>
         <p class="text-lg bold font-semibold">
@@ -182,68 +180,70 @@
           >
         </p>
       </div>
-      <table class="w-full">
-        <thead>
-          <tr class="text-xs text-stone-500">
-            <th class="text-left pt-2 pb-4"></th>
-            <th class="text-left pt-2 pb-4">Start Time</th>
-            <th class="text-left pt-2 pb-4">Unbond Amount</th>
-            <th class="text-right pt-2 pb-4">Forecasted PnL</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each incompleteAnalyticsDataByAsset as unstake}
-            {@const unbondAmount = Balance.fromAmountDenom(
-              unstake.unbondAmount,
-              unstake.controller.ask_denom
-            )}
-            {@const pnl = Balance.fromAmountDenom(
-              unstake.pnl,
-              unstake.controller.offer_denom
-            )}
-            <tr class="text-sm">
-              <td>
-                <svelte:component
-                  this={icon(unstake.controller.ask_denom)}
-                  class="size-5"
-                />
-              </td>
-              <td>
-                <a
-                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
-                  target="_blank"
-                >
-                  <div class="flex items-center gap-1 py-1">
-                    {getRelativeTime(unstake.startTime, true)} ago
-                  </div>
-                </a>
-              </td>
-              <td class="">
-                <a
-                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
-                  target="_blank"
-                >
-                  {formatBalance(unbondAmount)}
-                  <span class="text-stone-500">
-                    {unbondAmount.name}
-                  </span>
-                </a>
-              </td>
-              <td class="text-right">
-                <a
-                  href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
-                  target="_blank"
-                >
-                  {formatBalance(pnl)}
-                  <span class="text-stone-500">
-                    {pnl.name}
-                  </span>
-                </a>
-              </td>
+      <div class="overflow-y-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="text-xs text-stone-500 bg-stone-800 sticky top-0">
+              <th class="text-left pt-2 pb-4"></th>
+              <th class="text-left pt-2 pb-4">Start Time</th>
+              <th class="text-left pt-2 pb-4">Unbond Amount</th>
+              <th class="text-right pt-2 pb-4">Forecasted PnL</th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {#each incompleteAnalyticsDataByAsset as unstake}
+              {@const unbondAmount = Balance.fromAmountDenom(
+                unstake.unbondAmount,
+                unstake.controller.ask_denom
+              )}
+              {@const pnl = Balance.fromAmountDenom(
+                unstake.pnl,
+                unstake.controller.offer_denom
+              )}
+              <tr class="text-sm">
+                <td>
+                  <svelte:component
+                    this={icon(unstake.controller.ask_denom)}
+                    class="size-5"
+                  />
+                </td>
+                <td>
+                  <a
+                    href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                    target="_blank"
+                  >
+                    <div class="flex items-center gap-1 py-1">
+                      {getRelativeTime(unstake.startTime, true)} ago
+                    </div>
+                  </a>
+                </td>
+                <td class="">
+                  <a
+                    href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                    target="_blank"
+                  >
+                    {formatBalance(unbondAmount)}
+                    <span class="text-stone-500">
+                      {unbondAmount.name}
+                    </span>
+                  </a>
+                </td>
+                <td class="text-right">
+                  <a
+                    href={`https://finder.kujira.network/kaiyo-1/address/${unstake.delegate}`}
+                    target="_blank"
+                  >
+                    {formatBalance(pnl)}
+                    <span class="text-stone-500">
+                      {pnl.name}
+                    </span>
+                  </a>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
