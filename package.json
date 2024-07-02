@@ -37,7 +37,7 @@
     "@cosmjs/proto-signing": "^0.32.3",
     "@cosmjs/stargate": "^0.32.3",
     "@cosmjs/tendermint-rpc": "^0.32.3",
-    "@entropic-labs/unstake.js": "^0.0.9",
+    "@entropic-labs/unstake.js": "0.0.10",
     "@formkit/auto-animate": "^0.8.2",
     "@keplr-wallet/types": "^0.12.88",
     "@leapwallet/cosmos-snap-provider": "^0.1.26",
