@@ -58,9 +58,9 @@
   <div
     class="flex flex-col w-full items-center justify-center align-center gap-4 mt-4"
   >
-    <div class="flex gap-4 w-full">
+    <div class="flex flex-col md:flex-row items-center md:items-start gap-4 w-full">
       <DateBarChartWrapper
-        class="basis-1/2"
+        class="md:basis-1/2 w-full"
         data={selectedDataset}
         dataMap={(d) => ({
           x: d.startTime,
@@ -73,7 +73,7 @@
         graphColor="gray"
       />
       <DateBarChartWrapper
-        class="basis-1/2"
+        class="md:basis-1/2 w-full"
         data={selectedDataset}
         dataMap={(d) => ({
           x: d.endTime,
@@ -90,8 +90,8 @@
     </div>
   </div>
 
-  <div class="flex flex-row gap-4 mt-4">
-    <div class="flex flex-col basis-1/2 rounded-lg bg-stone-800 max-h-72 px-2">
+  <div class="flex flex-col md:flex-row items-center gap-4 mt-4">
+    <div class="flex flex-col w-full md:basis-1/2 rounded-lg bg-stone-800 max-h-96 px-2">
       <div class=" bg-stone-800 py-2">
         <p class="text-md text-stone-400">Completed Unstakings</p>
         <p class="text-lg bold font-semibold">
@@ -168,7 +168,7 @@
         </table>
       </div>
     </div>
-    <div class="flex flex-col basis-1/2 rounded-lg bg-stone-800 max-h-72 px-2">
+    <div class="flex flex-col w-full md:basis-1/2 rounded-lg bg-stone-800 max-h-96 px-2">
       <div class="sticky top-0 bg-stone-800 py-2">
         <p class="text-md text-stone-400">Started Unstakings</p>
         <p class="text-lg bold font-semibold">
