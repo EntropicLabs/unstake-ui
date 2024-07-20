@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ url, locals, params }) => {
     url.searchParams.get("limit"),
     url.searchParams.get("prevId"),
     url.searchParams.get("prevTimestamp"),
-    null
+    params.controller
   );
 
   if (res.error != null) {
