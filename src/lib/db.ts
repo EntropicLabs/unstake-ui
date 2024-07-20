@@ -32,11 +32,25 @@ const postgresQuery = (
   params: string[]
 ) => db.query(text, params);
 
+/**
+ * Queries started unstaking records based on cursor pagination parameters.
+ * 
+ * If prevId and prevTimestamp are not specified, queries the first page. 
+ * Otherwise, queries the next page based on prevId and prevTimestamp as cursors.
+ * 
+ * @param db Postgres DB client
+ * @param limit The maximum number of results in a single page
+ * @param prevId The id of the last retrieved unstake record.
+ * @param prevTimestamp The timestamp of the last retrieved unstake record.
+ * @param controller An optional controller for the unstake records
+ * @returns An error code and error message if the parameters are invalid. 
+ * Otherwise, returns the unstake records.
+ */
 export const getPaginatedUnstakings = async (
   db: pkg.PoolClient,
   limit: string | null,
-  id: string | null,
-  timestamp: string | null,
+  prevId: string | null,
+  prevTimestamp: string | null,
   controller: string | null
 ) => {
   try {
@@ -52,7 +66,7 @@ export const getPaginatedUnstakings = async (
       };
     }
 
-    if (id == null && timestamp == null) {
+    if (prevId == null && prevTimestamp == null) {
       // Return first page
       const res = await postgresQuery(
         db,
@@ -70,14 +84,14 @@ export const getPaginatedUnstakings = async (
       return { data: res.rows };
     }
 
-    if (id == null) {
+    if (prevId == null) {
       return {
         error: "Please specify the id of the last retrieved record",
         status: 422,
       };
     }
 
-    if (timestamp == null) {
+    if (prevTimestamp == null) {
       return {
         error: "Please specify the timestamp of the last retrieved record",
         status: 422,
@@ -90,7 +104,7 @@ export const getPaginatedUnstakings = async (
       `
     SELECT "id", "unbondAmount", "borrowAmount" as "offerAmount", "controller", "startTime" as "timestamp", "startBlockHeight"
     FROM unstake
-    WHERE ("id", "startTime") < (${id}, '${timestamp}') 
+    WHERE ("id", "startTime") < (${prevId}, '${prevTimestamp}') 
     AND NOT ("startBlockHeight"=0) AND ("endBlockHeight"=0)
     ${controller != null ? `AND "controller"='${controller}'` : ""}
     ORDER BY "id" DESC, "startTime" DESC
