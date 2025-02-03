@@ -31,12 +31,13 @@
 </svelte:head>
 
 <header class="mt-4">
-  <div class="flex justify-center gap-3 md:gap-0 md:justify-between mx-auto py-4 px-10">
+  <div
+    class="flex justify-center gap-3 md:gap-0 md:justify-between mx-auto py-4 px-10"
+  >
     <a href="/">
       <img src="/unstake-name.svg" class="h-12 xs:h-14" alt="Unstake.fi Logo" />
     </a>
     <nav class="flex gap-2 md:gap-3 items-center text-sm xs:text-base">
-      <a href="/analytics" class:active={path === "/analytics"}>Analytics</a>
       <a href="/protocol" class:active={path === "/protocol"}>Protocol</a>
       <a href="/" class:active={path === "/"}>Unstake</a>
     </nav>

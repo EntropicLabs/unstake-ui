@@ -36,9 +36,10 @@ export const NETWORKS: Record<string, NetworkMetadata> = {
         icon: IconKujira,
         explorer: `https://finder.kujira.network/${MAINNET}`,
         rpcs: [
-            "https://rpc-kujira.mintthemoon.xyz",
-            "https://kujira-rpc.polkachu.com",
-            "https://rpc-kujira.starsquid.io",
+            "https://rpc.cosmos.directory/kujira",
+            // "https://rpc-kujira.mintthemoon.xyz",
+            // "https://kujira-rpc.polkachu.com",
+            // "https://rpc-kujira.starsquid.io",
             // "https://kujira-mainnet-rpc.autostake.com",
             // "https://kujira-rpc.ibs.team",
             // "https://kujira-rpc.nodes.defiantlabs.net",

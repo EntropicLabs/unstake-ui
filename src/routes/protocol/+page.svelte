@@ -9,10 +9,6 @@
   import WalletInfo from "$lib/components/WalletInfo.svelte";
   import ReserveMigration from "$lib/components/ReserveMigration.svelte";
   import { RESERVES } from "@entropic-labs/unstake.js";
-  import StakerInfo from "$lib/components/StakerInfo.svelte";
-  import type { PageData } from "./$types";
-
-  export let data: PageData;
 
   $: allReserves = Object.values(
     RESERVES[$savedNetwork.chainId]
@@ -45,20 +41,7 @@
             status.reserve_redemption_rate
           );
 
-          const historicalRate = data.historical[reserve.address];
-          if (historicalRate) {
-            const elapsedTime =
-              Date.now() - new Date(historicalRate.date).getTime();
-            const one_year = 365 * 24 * 60 * 60 * 1000;
-            const fraction = elapsedTime / one_year;
-
-            status.apr = status.reserve_redemption_rate
-              .minus(historicalRate.rate)
-              .div(fraction)
-              .times(100);
-          } else {
-            status.apr = null;
-          }
+          status.apr = null;
 
           return [reserve.address, status] as [string, ReserveStatusResponse];
         })
@@ -98,11 +81,4 @@
       />
     {/each}
   </div>
-</div>
-
-<div class="max-w-screen-md mx-auto my-4">
-  <div class="w-full flex mb-2">
-    <h1 class="text-2xl xs:text-3xl md:text-4xl text-center">Unstake DAO</h1>
-  </div>
-  <StakerInfo />
 </div>

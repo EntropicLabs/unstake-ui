@@ -47,7 +47,7 @@
 
   const controller = writable(
     browser
-      ? $page.url.searchParams.get("controller") ?? defaultController
+      ? ($page.url.searchParams.get("controller") ?? defaultController)
       : defaultController
   );
   $: {
